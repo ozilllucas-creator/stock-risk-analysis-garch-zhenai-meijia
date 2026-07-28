@@ -1,4 +1,4 @@
-# stock-risk-analysis-garch-zhenai-meijia(003041)
+# Stock-Risk-Analysis-garch-zhenai-meijia(003041)
 My family invested over 200k dollar on this! So I have been moniterd this stock for 1 year! This project use quantitative financial study on Zhenai Meijia (003041), a Chinese textile stock subject to AI takeover rumors. this project uses multi-factor OLS, rolling regressions, dummy variables, and GARCH(1,1)-VaR to evaluate pricing logic (AI vs. textile), style transitions, event shocks (M&amp;A news and earnings slumps), and dynamic tail risks.
 
 ### 1. Baseline Pricing Logic (Multi-Factor OLS)
@@ -16,9 +16,10 @@ $$R_t = \alpha + \beta_1 R_{\text{AI}, t} + \beta_2 R_{\text{Textile}, t} + \bet
 
 ---
 
+
 #### 📊 Empirical Findings & Interpretation
 
-| Factor | Coefficient ($\beta$) | Std. Error | $t$-statistic | $p$-value ($P>|t|$) | Statistical Significance |
+| Factor | Coefficient ($\beta$) | Std. Error | $t$-statistic | $p$-value ($P>\|t\|$) | Statistical Significance |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Intercept ($\alpha$)** | 0.0008 | 0.002 | 0.502 | 0.616 | Not Significant ($p > 0.05$) |
 | **AI Factor ($R_{\text{AI}}$)** | -0.0142 | 0.078 | -0.181 | 0.857 | Not Significant ($p > 0.05$) |
@@ -27,7 +28,6 @@ $$R_t = \alpha + \beta_1 R_{\text{AI}, t} + \beta_2 R_{\text{Textile}, t} + \bet
 
 - **Core Analysis**: In the static full-sample regression, all factor coefficients yield $p$-values well above the standard $0.05$ threshold. 
 - **Methodological Takeaway**: Static full-sample linear regression fails to capture clear pricing drivers due to structural breaks over time. This empirical result strongly justifies the necessity of introducing **30-Day Rolling Regression (Section 2)** and **Dummy Variable Event Shocks (Section 3)** to capture dynamic style transitions and discrete exogenous impacts.
-
 - --
 
 ### 2. Style Transition Timing (30-Day Rolling Regression)
@@ -74,7 +74,7 @@ $$R_t = \beta_0 + \beta_1 R_{\text{AI}, t} + \beta_2 R_{\text{Textile}, t} + \be
 
 #### 📊 Regression Empirical Results
 
-| Factor / Dummy | Coefficient ($\beta / \gamma$) | Std. Error | $t$-statistic | $p$-value ($P>|t|$) | Shift Impact |
+| Factor / Dummy | Coefficient ($\beta / \gamma$) | Std. Error | $t$-statistic | $p$-value ($P>\|t\|$) | Shift Impact |
 | :--- | :--- | :--- | :--- | :--- | :--- |
 | **Intercept ($\beta_0$)** | 0.0012 | 0.002 | 0.732 | 0.464 | Baseline Alpha |
 | **AI Factor ($R_{\text{AI}}$)** | 0.0643 | 0.059 | 1.085 | 0.279 | Sector Control |
@@ -83,7 +83,7 @@ $$R_t = \beta_0 + \beta_1 R_{\text{AI}, t} + \beta_2 R_{\text{Textile}, t} + \be
 | **Event 1 ($D_{\text{Control}}$)** | **+0.0012** | 0.002 | 0.482 | 0.630 | **+0.12% / day** |
 | **Event 2 ($D_{\text{Earnings}}$)** | **-0.0097** | 0.008 | -1.190 | 0.235 | **-0.97% / day** |
 
-#### 💡 Economic Interpretation & Analysis
+#### 📊 Economic Interpretation & Analysis
 - **Event 1 (Control Change Announcement — Nov 4, 2025)**: Generated a positive daily abnormal return shift ($\gamma_1 = +0.12\%$), capturing speculative momentum and market expectations of an AI shell-listing.
 - **Event 2 (Earnings Slump — Jul 15, 2026)**: Imposed a severe downside shock ($\gamma_2 = -0.97\%$), representing daily price re-alignment following the announcement of a massive profit drop (89.57%–92.87% YoY).
 
@@ -105,14 +105,13 @@ Traditional Value-at-Risk (VaR) assumes static variance, failing to account for 
 
 #### 📊 GARCH(1,1) Model Estimation Results
 
-| Parameter | Coefficient | Std. Error | $t$-statistic | $p$-value ($P>|t|$) | Statistical Significance | Financial Meaning |
+| Parameter | Coefficient | Std. Error | $t$-statistic | $p$-value ($P>\|t\|$) | Statistical Significance | Financial Meaning |
 | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
 | **$\omega$ (Omega)** | 0.6766 | 1.529 | 0.442 | 0.658 | Not Significant ($p > 0.05$) | Baseline Variance |
 | **$\alpha[1]$ (Alpha)** | 0.0000 | 0.0227 | 0.000 | 1.000 | Not Significant ($p > 0.05$) | Immediate News Shock Reaction |
 | **$\beta[1]$ (Beta)** | **0.8818** | **0.270** | **3.266** | **0.00109** | **Highly Significant ($p < 0.001$)** | **Volatility Persistence / Memory** |
-
 ---
 
 #### 💡 Econometric & Risk Management Takeaways
 - **Strong Volatility Persistence ($\beta \approx 0.88, p < 0.001$)**: The coefficient $\beta$ is highly significant, indicating strong risk inertia in **Zhenai Meijia (003041)**. Past volatility heavily dictates future risk, meaning market panics or speculative bursts will decay slowly over time.
-- **Tail Risk Quantification**: Under the current volatility regime, the portfolio manager or investor faces a maximum predicted single-day loss of approximately **4.07%** at a $95\%$ confidence level.
+- **Tail Risk Quantification**: Under the current volatility regime, the portfolio manager or investor faces a predicted single-day loss of approximately **4.07%** at a $95\%$ confidence level.
